@@ -41,7 +41,8 @@ html, body {
   font-size: 16px;
   max-width: 1200px;
   margin:auto;
-  display:block
+  display:block;
+  touch-action: pan-x;
 }
 
 .reveal .slides {
@@ -77,7 +78,7 @@ html, body {
 }
 
 .splash h1 {
-  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+  font-size: clamp(1.6rem, 2.5vw, 2.8rem);
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 12px;
@@ -961,8 +962,9 @@ html, body {
     border-bottom: 2px solid var(--cinza-medio);
   }
 
-  .splash h1 { font-size: 1.5rem; }
-  .splash h2 { font-size: 0.95rem; }
+  .splash-aviso{max-height: 200px; overflow-y: auto ;}
+  .splash h1 { font-size: 1.0rem; }
+  .splash h2 { font-size: 0.55rem; }
 
   .conclusao-blocos {
     grid-template-columns: 1fr;

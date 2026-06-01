@@ -6,6 +6,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Simulador Educacional de Transparência Algorítmica</title>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Detecta se é celular por tamanho de tela ou assinatura do navegador
+        const eMobile = (window.innerWidth <= 1023) || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+        if (eMobile) {
+           const elementosReveal = document.querySelectorAll('.reveal');
+           const elementErroSmartphone = document.querySelector('.erro-smartphone');
+
+           elementErroSmartphone.style.display = 'block';
+    
+    // Percorre cada elemento encontrado e aplica o estilo display: none
+          elementosReveal.forEach(elemento => {
+              elemento.style.display = 'none';
+
+              
+          });
+        }
+    });
+</script>
+
   <!-- =========================================================
        DETECÇÃO AUTOMÁTICA DE BASE PATH
        Garante que caminhos relativos funcionem em qualquer ambiente
@@ -51,6 +72,10 @@
 
 <body>
 
+  <div class="erro-smartphone" style="color:white; display:none">
+    📱 Esta experiência é melhor aproveitada em telas maiores. Por favor, acesse de um computador para uma visualização ideal.
+  </div>
+
   <div class="reveal">
     <div class="slides">
 
@@ -59,13 +84,13 @@
          Para editar: título, subtítulo, aviso e tags abaixo.
          ========================================================= -->
       <section>
-        <div class="splash">
+        <div class="splash ">
           <div class="splash-logo">🎰</div>
           <h1>Simulador Educacional para Conscientizaçãoo de Jovens sobre Riscos Financeiros em Jogos de Aposta Digitais
           </h1>
           <h2>Uma demonstração interativa sobre ilusão, algoritmo e perdas em apostas digitais</h2>
 
-          <div class="splash-aviso">
+          <div class="splash-aviso  ">
             Esta é uma experiência fictícia e exclusivamente educativa.<br>
             O simulador não utiliza dinheiro real, não solicita cadastro, não se conecta a servidores externos e não
             realiza sorteios reais.<br>
@@ -116,7 +141,7 @@
           </div>
 
           <!-- Painel Esquerdo: Jogo -->
-          <div class="painel-jogo flex-col">
+          <div class="painel-jogo flex-col  permitir-drag" styles="overflow-y:auto;">
             <div class="painel-label">🎮 Jogo</div>
 
             <div class="narrativa-bar">
@@ -147,7 +172,7 @@
           </div>
 
           <!-- Painel Direito: Transparência -->
-          <div class="painel-transparencia flex-col">
+          <div class="painel-transparencia flex-col  permitir-drag" styles="overflow-y:auto;">
             <div class="painel-label">🔍 Painel de Transparência</div>
 
 
@@ -716,9 +741,9 @@
 
           <!-- Botões de ação -->
           <div class="conclusao-acoes">
-            <button class="btn btn-download" onclick="downloadPDF()">
-              📥 Baixar roteiro em PDF
-            </button>
+            <a href="pedagogico.pdf" download="pedagogico.pdf" class="btn btn-download" style="text-decoration: none; display: inline-block;">
+                📥 Baixar roteiro em PDF
+            </a>
             <button class="btn btn-reiniciar" onclick="resetDemo()">
               🔄 Reiniciar demonstração
             </button>
@@ -751,37 +776,11 @@
   <!-- Reveal.js via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
 
-  <!-- Script do projeto com proteção robusta -->
+  <!-- Script do projeto -->
   <script defer src="script.js"></script>
 
-  <!-- Fallback de segurança para garantir inicialização -->
-  <script>
-    // Se o script.js não carregar, mostrar aviso ao usuário
-    window.addEventListener('load', function() {
-      // Verifica se Reveal foi inicializado corretamente
-      if (typeof Reveal !== 'undefined' && Reveal.isReady && !Reveal.isReady()) {
-        console.warn('⚠️ Reveal.js não inicializou corretamente.');
-      }
 
-      // Se script.js não carregou, Reveal não terá sido configurado
-      if (!window.__APP_INITIALIZED__) {
-        // Tenta carregar o script como fallback
-        const script = document.createElement('script');
-        script.src = window.__APP_BASE_PATH__ + 'script.js';
-        script.onerror = function() {
-          console.error('❌ Erro ao carregar script.js');
-          document.body.insertAdjacentHTML('beforeend',
-            '<div style="position:fixed;top:0;left:0;right:0;bottom:0;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;z-index:9999;font-size:18px;text-align:center;padding:40px;">' +
-            '<div>' +
-            '<p>❌ Erro ao carregar o aplicativo</p>' +
-            '<p style="font-size:14px;margin-top:20px;color:#aaa;">Script não encontrado. Verifique se style.css e script.js estão no mesmo diretório.</p>' +
-            '</div></div>'
-          );
-        };
-        document.body.appendChild(script);
-      }
-    });
-  </script>
+
 
 </body>
 

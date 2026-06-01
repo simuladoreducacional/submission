@@ -11,6 +11,14 @@
 
 'use strict';
 
+// Proteção contra carregamento duplicado
+if (window.__APP_SCRIPT_LOADED__) {
+  console.warn('⚠️ Script.js já foi carregado anteriormente. Ignorando duplicação.');
+  window.__APP_INITIALIZED__ = true;
+  throw new Error('Script.js já carregado - impedindo duplicação');
+}
+window.__APP_SCRIPT_LOADED__ = true;
+
 /* ============================================================
    SÍMBOLOS DO JOGO
    Para trocar os símbolos, edite este array.
