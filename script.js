@@ -943,5 +943,18 @@ document.addEventListener('DOMContentLoaded', () => {
     Reveal.slide(0, 0, 0);
     initAnimators();
     bloquearTeclado();
+
+    // Marca que a aplicação foi inicializada corretamente
+    window.__APP_INITIALIZED__ = true;
+    console.log('✅ Simulador inicializado com sucesso');
+  }).catch((error) => {
+    console.error('❌ Erro ao inicializar Reveal.js:', error);
+    document.body.insertAdjacentHTML('beforeend',
+      '<div style="position:fixed;top:0;left:0;right:0;bottom:0;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;z-index:9999;font-size:18px;text-align:center;padding:40px;">' +
+      '<div>' +
+      '<p>❌ Erro ao inicializar o simulador</p>' +
+      '<p style="font-size:14px;margin-top:20px;color:#aaa;">' + error.message + '</p>' +
+      '</div></div>'
+    );
   });
 });

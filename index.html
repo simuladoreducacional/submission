@@ -6,6 +6,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Simulador Educacional de Transparência Algorítmica</title>
 
+  <!-- =========================================================
+       DETECÇÃO AUTOMÁTICA DE BASE PATH
+       Garante que caminhos relativos funcionem em qualquer ambiente
+       (local, GitHub Pages root, ou subdiretório)
+       ========================================================= -->
+  <script>
+    (function() {
+      // Detecta o caminho base automaticamente
+      const currentPath = window.location.pathname;
+      const isDev = currentPath === '/' || currentPath.endsWith('.html');
+
+      // Se estiver em GitHub Pages (URL contém /nome-repo/), extrai o base path
+      let basePath = '/';
+      if (!isDev && !window.location.hostname.includes('localhost')) {
+        // Extrai tudo antes do último /
+        const parts = currentPath.split('/').filter(p => p);
+        if (parts.length > 0 && parts[parts.length - 1] !== 'index.html') {
+          // Está em subdiretório no GitHub Pages
+          basePath = '/' + parts.join('/') + '/';
+        }
+      }
+
+      // Define o base href para resolver caminhos relativos
+      const baseTag = document.createElement('base');
+      baseTag.href = basePath;
+      document.head.insertBefore(baseTag, document.head.firstChild);
+
+      // Expõe globalemente para debugging
+      window.__APP_BASE_PATH__ = basePath;
+    })();
+  </script>
+
   <!-- Reveal.js via CDN -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
@@ -719,8 +751,37 @@
   <!-- Reveal.js via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
 
-  <!-- Script do projeto -->
-  <script src="script.js"></script>
+  <!-- Script do projeto com proteção robusta -->
+  <script defer src="script.js"></script>
+
+  <!-- Fallback de segurança para garantir inicialização -->
+  <script>
+    // Se o script.js não carregar, mostrar aviso ao usuário
+    window.addEventListener('load', function() {
+      // Verifica se Reveal foi inicializado corretamente
+      if (typeof Reveal !== 'undefined' && Reveal.isReady && !Reveal.isReady()) {
+        console.warn('⚠️ Reveal.js não inicializou corretamente.');
+      }
+
+      // Se script.js não carregou, Reveal não terá sido configurado
+      if (!window.__APP_INITIALIZED__) {
+        // Tenta carregar o script como fallback
+        const script = document.createElement('script');
+        script.src = window.__APP_BASE_PATH__ + 'script.js';
+        script.onerror = function() {
+          console.error('❌ Erro ao carregar script.js');
+          document.body.insertAdjacentHTML('beforeend',
+            '<div style="position:fixed;top:0;left:0;right:0;bottom:0;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;z-index:9999;font-size:18px;text-align:center;padding:40px;">' +
+            '<div>' +
+            '<p>❌ Erro ao carregar o aplicativo</p>' +
+            '<p style="font-size:14px;margin-top:20px;color:#aaa;">Script não encontrado. Verifique se style.css e script.js estão no mesmo diretório.</p>' +
+            '</div></div>'
+          );
+        };
+        document.body.appendChild(script);
+      }
+    });
+  </script>
 
 </body>
 
