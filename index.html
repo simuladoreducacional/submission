@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador Educacional de Transparência Algorítmica</title>
+
+  <!-- Reveal.js via CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+  <!-- Estilos do projeto -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- =========================================================
+         SLIDE 0 — SPLASHSCREEN
+         Para editar: título, subtítulo, aviso e tags abaixo.
+         ========================================================= -->
+      <section>
+        <div class="splash">
+          <div class="splash-logo">🎰</div>
+          <h1>Simulador Educacional para Conscientizaçãoo de Jovens sobre Riscos Financeiros em Jogos de Aposta Digitais
+          </h1>
+          <h2>Uma demonstração interativa sobre ilusão, algoritmo e perdas em apostas digitais</h2>
+
+          <div class="splash-aviso">
+            Esta é uma experiência fictícia e exclusivamente educativa.<br>
+            O simulador não utiliza dinheiro real, não solicita cadastro, não se conecta a servidores externos e não
+            realiza sorteios reais.<br>
+            Todos os resultados apresentados foram previamente definidos para demonstrar, de forma controlada, como
+            alguns mecanismos de jogos de aposta digitais do tipo caça-níquel podem influenciar a percepção do
+            jogador.<br>
+            Ao longo da demonstração, você verá exemplos de resultado definido antes da animação, quase ganho, vitória
+            falsa e perda acumulada.<br>
+            O objetivo é tornar esses mecanismos mais visíveis e apoiar a reflexão sobre riscos financeiros associados à
+            repetição de apostas.
+          </div>
+
+          <!-- Para adicionar ou remover tags, edite os .splash-tag abaixo -->
+          <div class="splash-aprendizados">
+            <div class="splash-tag">🔍 Resultado antes da animação</div>
+            <div class="splash-tag">⚠️ Near-miss fabricado</div>
+            <div class="splash-tag">🎭 Vitórias que são perdas</div>
+          </div>
+
+          <button class="btn btn-girar" onclick="goToStep(1)">
+            Iniciar demonstração →
+          </button>
+        </div>
+      </section>
+
+      <!-- =========================================================
+         SLIDE 1 — ENTRADA
+         Para editar: saldo inicial em DEMO_SCRIPT.steps.entrada
+         e no atributo do saldo abaixo.
+         ========================================================= -->
+      <section>
+
+
+        <div class="slide-layout">
+
+          <!-- Cabeçalho comum a todos os slides 1-6 -->
+          <div class="slide-header">
+            <h2>⓵ Entrada — Você tem R$ 50,00 virtuais</h2>
+            <div class="step-indicator">
+              <!-- 6 dots para as 6 etapas -->
+              <div class="step-dot ativo" title="Etapa 1"></div>
+              <div class="step-dot" title="Etapa 2"></div>
+              <div class="step-dot" title="Etapa 3"></div>
+              <div class="step-dot" title="Etapa 4"></div>
+              <div class="step-dot" title="Etapa 5"></div>
+              <div class="step-dot" title="Etapa 6"></div>
+            </div>
+          </div>
+
+          <!-- Painel Esquerdo: Jogo -->
+          <div class="painel-jogo flex-col">
+            <div class="painel-label">🎮 Jogo</div>
+
+            <div class="narrativa-bar">
+              <div class="narrativa-seg atual"></div>
+              <div class="narrativa-seg"></div>
+              <div class="narrativa-seg"></div>
+              <div class="narrativa-seg"></div>
+              <div class="narrativa-seg"></div>
+              <div class="narrativa-seg"></div>
+            </div>
+
+            <!-- Grade 3×3 — gerenciada pelo SlotAnimator -->
+            <div id="s1-grid" class="slot-grid" style="margin-top:16px;"></div>
+
+            <div class="saldo-box" style="margin-top:16px;">
+              <div class="saldo-label">Saldo</div>
+              <!-- Para alterar o saldo inicial, edite DEMO_SCRIPT.steps.entrada.balance -->
+              <div id="s1-saldo" class="saldo-valor">R$ 5,00</div>
+            </div>
+
+            <div class="btn-area">
+              <!-- Botão principal da etapa 1 -->
+              <button id="btn-girar" class="btn btn-girar" onclick="acaoGirar()">
+                🎰 GIRAR
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Painel Direito: Transparência -->
+          <div class="painel-transparencia flex-col">
+            <div class="painel-label">🔍 Painel de Transparência</div>
+
+
+            <!-- Para editar o texto explicativo da etapa 1, edite o card abaixo -->
+            <div class="transparencia-card">
+              <h3>Como funciona</h3>
+              Você começa com <strong>R$ 50,00 de saldo fictício</strong>.<br><br>
+              A cada rodada, serão descontados <strong>R$ 5,00 fictícios</strong> desse saldo.<br><br>
+              Nesta demonstração, vamos mostrar o que acontece <em>por trás da interface</em>,
+              antes e depois da animação dos símbolos.
+            </div>
+
+            <div class="transparencia-card destaque">
+              <h3>O que você vai aprender</h3>
+              ✅ O resultado é definido <strong>antes</strong> da animação<br>
+              ✅ O "quase ganho" pode aumentar a sensação de estar perto de vencer<br>
+              ✅ Algumas vitórias podem esconder uma perda real<br>
+              ✅ Pequenas perdas podem se acumular ao longo das rodadas
+            </div>
+
+            <div class="transparencia-card" style="margin-top:auto; background:#f0fff6; border-left-color:#27ae60;">
+              <h3>Instrução</h3>
+              Clique em <strong>GIRAR</strong> para iniciar a demonstração e acompanhe o painel de transparência.
+            </div>
+
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =========================================================
+         SLIDE 2 — RESULTADO DECIDIDO ANTES DA ANIMAÇÃO
+         Para editar: DEMO_SCRIPT.steps.resultado_decidido
+         ========================================================= -->
+      <section>
+        <div class="slide-layout">
+
+          <div class="slide-header">
+            <h2>⓶ O algoritmo decide antes da animação</h2>
+            <div class="step-indicator">
+              <div class="step-dot visitado"></div>
+              <div class="step-dot ativo"></div>
+              <div class="step-dot"></div>
+              <div class="step-dot"></div>
+              <div class="step-dot"></div>
+              <div class="step-dot"></div>
+            </div>
+          </div>
+
+          <!-- Painel Jogo -->
+          <div class="painel-jogo flex-col">
+            <div class="painel-label">🎮 Jogo</div>
+
+            <div class="narrativa-bar">
+              <div class="narrativa-seg feito"></div>
+              <div class="narrativa-seg atual"></div>
+              <div class="narrativa-seg"></div>
+              <div class="narrativa-seg"></div>
+              <div class="narrativa-seg"></div>
+              <div class="narrativa-seg"></div>
+            </div>
+
+            <div id="s2-grid" class="slot-grid" style="margin-top:16px;"></div>
+
+            <div class="saldo-box" style="margin-top:16px;">
+              <div class="saldo-label">Saldo</div>
+              <div id="s2-saldo" class="saldo-valor">R$ 5,00</div>
+            </div>
+
+            <div class="btn-area">
+              <div id="s2-btn-continuar" class="oculto" style="width:100%;max-width:280px;">
+                <button class="btn btn-continuar" onclick="goToStep(3)">
+                  Continuar →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Painel Transparência -->
+          <div class="painel-transparencia flex-col">
+            <div class="painel-label">🔍 Painel de Transparência</div>
+
+            <!-- Painel antes do giro: aparece enquanto anima -->
+            <div id="s2-panel-antes">
+              <div class="algo-destaque">
+                🖥️ ALGORITMO DECIDE ANTES DA ANIMAÇÃO
+              </div>
+              <!-- Para editar: altere o texto de antecipação abaixo -->
+              <div class="transparencia-card destaque">
+                <h3>O que acontece agora</h3>
+                O algoritmo já <strong>sorteou o resultado</strong> neste exato momento.<br><br>
+                Você vai ver:<br>
+                <strong>😃 Feliz · 😃 Feliz · ❤ Coração</strong> na linha central.<br><br>
+                Essa é uma <span class="texto-vermelho"><strong>derrota</strong></span>.
+              </div>
+              <div class="transparencia-card alerta">
+                <h3>Por que isso importa</h3>
+                A animação de giro <em>não calcula nada</em>. Ela apenas exibe
+                visualmente um resultado que já foi definido pelo servidor.
+                O espetáculo é separado da decisão.
+              </div>
+            </div>
+
+            <!-- Painel após o giro: revela o resultado -->
+            <div id="s2-panel-depois" class="oculto">
+              <div class="transparencia-card alerta">
+                <h3>Resultado confirmado</h3>
+                Como previsto: <strong>😃 😃 ❤</strong><br><br>
+                Aposta: <strong>R$ 5,00 fictícios</strong> · Retorno: <strong>R$ 0,00</strong><br>
+                <span class="texto-vermelho">Perda de R$ 5,00 fictícios</span>
+              </div>
+              <div class="transparencia-card">
+                <h3>Reflexão</h3>
+                A animação durou cerca de 2 segundos. Esse tempo serviu apenas para
+                criar <strong>expectativa</strong> o resultado já havia sido definido
+                antes dos símbolos começarem a girar.
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =========================================================
+         SLIDE 3 — NEAR-MISS FABRICADO
+         Para editar: DEMO_SCRIPT.steps.near_miss
+         ========================================================= -->
+      <section>
+        <div class="slide-layout">
+
+          <div class="slide-header">
+            <h2>⓷ Near-miss fabricado — a ilusão de quase ganhar</h2>
+            <div class="step-indicator">
+              <div class="step-dot visitado"></div>
+              <div class="step-dot visitado"></div>
+              <div class="step-dot ativo"></div>
+              <div class="step-dot"></div>
+              <div class="step-dot"></div>
+              <div class="step-dot"></div>
+            </div>
+          </div>
+
+          <!-- Painel Jogo -->
+          <div class="painel-jogo flex-col">
+            <div class="painel-label">🎮 Jogo</div>
+
+            <div class="narrativa-bar">
+              <div class="narrativa-seg feito"></div>
+              <div class="narrativa-seg feito"></div>
+              <div class="narrativa-seg atual"></div>
+              <div class="narrativa-seg"></div>
+              <div class="narrativa-seg"></div>
+              <div class="narrativa-seg"></div>
+            </div>
+
+            <!-- Legenda da grade -->
+            <div
+              style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;margin-bottom:4px;">
+              <span class="texto-medio">Linha central destacada</span>
+              <span style="font-size:0.75rem;color:#27ae60;font-weight:600;">← linha vencedora</span>
+            </div>
+
+            <div id="s3-grid" class="slot-grid" style="position:relative;"></div>
+
+            <!-- Legenda dos destaques -->
+            <div style="display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;">
+              <div style="display:flex;align-items:center;gap:4px;font-size:0.78rem;">
+                <div style="width:14px;height:14px;border-radius:3px;border:2px solid #27ae60;background:#f0fff4;">
+                </div>
+                <span>Quase linha vencedora</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:4px;font-size:0.78rem;">
+                <div style="width:14px;height:14px;border-radius:3px;border:2px solid #e74c3c;background:#fff5f5;">
+                </div>
+                <span>Símbolo fabricado fora</span>
+              </div>
+            </div>
+
+            <div class="saldo-box" style="margin-top:12px;">
+              <div class="saldo-label">Saldo</div>
+              <div id="s3-saldo" class="saldo-valor">R$40</div>
+            </div>
+
+            <div class="btn-area">
+              <button class="btn btn-continuar" onclick="goToStep(4)">
+                Continuar →
+              </button>
+            </div>
+          </div>
+
+          <!-- Painel Transparência -->
+          <div class="painel-transparencia flex-col">
+            <div class="painel-label">🔍 Painel de Transparência</div>
+
+            <div class="algo-destaque">
+              ⚠️ NEAR-MISS FABRICADO PELO ALGORITMO
+            </div>
+
+            <!-- Para editar o texto do near-miss, edite os cards abaixo -->
+            <div class="transparencia-card alerta">
+              <h3>O que aconteceu</h3>
+              Dois 😃 apareceram na linha central. O terceiro 😃 ficou logo
+              <strong>abaixo</strong> dessa linha.<br><br>
+              Isso criou a sensação de que você esteve perto de vencer:
+              um <em>quase ganho</em> (<em>near-miss</em>).
+            </div>
+
+            <div class="transparencia-card destaque">
+              <h3>O mecanismo por trás</h3>
+              Esse tipo de resultado pode ser configurado para mostrar símbolos valorizados
+              <strong>perto</strong> da linha central, sem formar uma combinação vencedora.<br><br>
+              O quase ganho (<em>near-miss</em>) pode aumentar a percepção de proximidade
+              com a vitória, mesmo quando a rodada representa uma perda.
+            </div>
+
+            <div class="transparencia-card">
+              <h3>Para refletir</h3>
+              Essa sensação de “quase ganhar” pode incentivar novas tentativas.
+              Por isso, é importante observar como a interface influencia a percepção
+              do jogador durante a interação.
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =========================================================
+         SLIDE 4 — VITÓRIA FALSA
+         Para editar: DEMO_SCRIPT.steps.vitoria_falsa
+         ========================================================= -->
+      <section>
+        <div class="slide-layout">
+
+          <div class="slide-header">
+            <h2>⓸ Vitória falsa — celebrando uma perda</h2>
+            <div class="step-indicator">
+              <div class="step-dot visitado"></div>
+              <div class="step-dot visitado"></div>
+              <div class="step-dot visitado"></div>
+              <div class="step-dot ativo"></div>
+              <div class="step-dot"></div>
+              <div class="step-dot"></div>
+            </div>
+          </div>
+
+          <!-- Painel Jogo -->
+          <div class="painel-jogo flex-col">
+            <div class="painel-label">🎮 Jogo</div>
+
+            <div class="narrativa-bar">
+              <div class="narrativa-seg feito"></div>
+              <div class="narrativa-seg feito"></div>
+              <div class="narrativa-seg feito"></div>
+              <div class="narrativa-seg atual"></div>
+              <div class="narrativa-seg"></div>
+              <div class="narrativa-seg"></div>
+            </div>
+
+            <div id="s4-grid" class="slot-grid" style="margin-top:12px;position:relative;"></div>
+
+            <!-- Container de confetes (posicionado sobre a grade) -->
+            <div id="s4-confetes" style="display:none;position:relative;height:0;overflow:visible;pointer-events:none;">
+            </div>
+
+            <!-- Banner de vitória — inicia oculto; JS controla via show()/hide() -->
+            <div id="s4-vitoria-banner" class="vitoria-banner oculto" style="margin-top:10px;">
+              🎉 VITÓRIA! 🎉
+            </div>
+
+            <div class="saldo-box" style="margin-top:10px;">
+              <div class="saldo-label">Saldo</div>
+              <!-- Para editar: DEMO_SCRIPT.steps.vitoria_falsa.balance -->
+              <div id="s4-saldo" class="saldo-valor">R$43</div>
+            </div>
+
+            <div class="btn-area">
+              <button class="btn btn-continuar" onclick="goToStep(5)">
+                Continuar →
+              </button>
+            </div>
+          </div>
+
+          <!-- Painel Transparência -->
+          <div class="painel-transparencia flex-col">
+            <div class="painel-label">🔍 Painel de Transparência</div>
+            <div class="algo-destaque"> 🎭 O JOGO ESTÁ CELEBRANDO UMA PERDA </div>
+            <!-- Para editar o texto da vitória falsa, edite os cards abaixo -->
+            <div class="transparencia-card alerta">
+              <h3>O que realmente aconteceu</h3> Você apostou <strong>R$ 5,00 fictícios</strong> e recebeu <strong>R$
+                3,00 fictícios</strong>.<br> Isso representa uma <span class="texto-vermelho"><strong>perda líquida de
+                  R$ 2,00 fictícios</strong></span>.<br><br> Mesmo assim, o jogo tocou música, mostrou efeitos visuais e
+              exibiu "VITÓRIA!".
+            </div> <!-- Conta visual — para editar valores, modifique as linhas abaixo -->
+            <div class="transparencia-card">
+              <h3>A conta real</h3>
+              <div class="conta-visual">
+                <div class="conta-linha"> <span>Aposta</span> <span class="texto-vermelho">- R$ 5,00</span> </div>
+                <div class="conta-linha"> <span>Recebeu</span> <span class="texto-verde">+ R$ 3,00</span> </div>
+                <div class="conta-linha separador perda"> <span>Perda líquida</span> <span>= R$ 2,00</span> </div>
+              </div>
+            </div>
+            <div class="transparencia-card destaque">
+              <h3>Por que isso importa</h3> Esse efeito é conhecido como <strong>vitória falsa</strong>. Ele pode fazer
+              uma perda parecer uma vitória, porque a interface comemora o resultado mesmo quando o saldo diminui.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+         SLIDE 5 — ACUMULADO EM TEMPO REAL
+         Para editar: DEMO_SCRIPT.steps.acumulado
+         ========================================================= -->
+      <section>
+        <div class="slide-layout">
+
+          <div class="slide-header">
+            <h2>⓹ Acumulado — a vantagem cresce a cada rodada</h2>
+            <div class="step-indicator">
+              <div class="step-dot visitado"></div>
+              <div class="step-dot visitado"></div>
+              <div class="step-dot visitado"></div>
+              <div class="step-dot visitado"></div>
+              <div class="step-dot ativo"></div>
+              <div class="step-dot"></div>
+            </div>
+          </div>
+
+          <!-- Painel Jogo -->
+          <div class="painel-jogo flex-col">
+            <div class="painel-label">🎮 Jogo</div>
+
+            <div class="narrativa-bar">
+              <div class="narrativa-seg feito"></div>
+              <div class="narrativa-seg feito"></div>
+              <div class="narrativa-seg feito"></div>
+              <div class="narrativa-seg feito"></div>
+              <div class="narrativa-seg atual"></div>
+              <div class="narrativa-seg"></div>
+            </div>
+
+            <div id="s5-grid" class="slot-grid" style="margin-top:12px;"></div>
+
+            <div class="saldo-box" style="margin-top:12px;">
+              <div class="saldo-label">Saldo</div>
+              <!-- Para editar: DEMO_SCRIPT.steps.acumulado.balance -->
+              <div id="s5-saldo" class="saldo-valor">R$10</div>
+            </div>
+
+            <div class="btn-area">
+              <button class="btn btn-continuar" onclick="goToStep(6)">
+                Finalizar demonstração →
+              </button>
+            </div>
+          </div>
+
+          <!-- Painel Transparência -->
+          <div class="painel-transparencia flex-col">
+            <div class="painel-label">🔍 Painel de Transparência</div>
+
+            <!-- Cards de estatísticas acumuladas -->
+            <!-- Para editar os valores, edite DEMO_SCRIPT.steps.acumulado -->
+            <div class="stat-cards">
+              <div class="stat-card"> <span class="stat-label">Total apostado até agora</span> <span
+                  class="stat-valor neutro">R$ 40,00</span> </div>
+              <div class="stat-card"> <span class="stat-label">Total recebido até agora</span> <span
+                  class="stat-valor positivo">R$ 31,00</span> </div>
+              <div class="stat-card"> <span class="stat-label">Diferença retida pela plataforma</span> <span
+                  class="stat-valor negativo">R$ 9,00</span> </div>
+            </div>
+            <div class="crescimento-label" style="margin-top:8px;"> 📈 Pequenas perdas podem se acumular ao longo das
+              rodadas </div> <!-- Para editar o texto explicativo, edite o card abaixo -->
+            <div class="transparencia-card" style="margin-top:10px;">
+              <h3>O que isso significa</h3> Após <strong>8 rodadas</strong>, foram apostados <strong>R$ 40,00
+                fictícios</strong> e recebidos de volta <strong>R$ 31,00 fictícios</strong>.<br><br> A diferença de
+              <strong>R$ 9,00 fictícios</strong> mostra como as perdas podem se acumular quando as rodadas são
+              repetidas.
+            </div>
+            <div class="transparencia-card alerta">
+              <h3>RTP e vantagem matemática</h3> O <strong>RTP (Return to Player)</strong> indica quanto o jogo devolve
+              aos jogadores ao longo de muitas rodadas.<br><br> A diferença entre o total apostado e o total devolvido
+              representa a <strong>vantagem matemática da plataforma</strong>.
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =========================================================
+         SLIDE 6 — ENCERRAMENTO
+         Para editar: DEMO_SCRIPT.steps.encerramento
+         ========================================================= -->
+      <section>
+        <div class="slide-layout">
+
+          <div class="slide-header">
+            <h2>⓺ Encerramento — o saldo chegou a zero</h2>
+            <div class="step-indicator">
+              <div class="step-dot visitado"></div>
+              <div class="step-dot visitado"></div>
+              <div class="step-dot visitado"></div>
+              <div class="step-dot visitado"></div>
+              <div class="step-dot visitado"></div>
+              <div class="step-dot ativo"></div>
+            </div>
+          </div>
+
+          <!-- Painel Jogo -->
+          <div class="painel-jogo flex-col">
+            <div class="painel-label">🎮 Jogo</div>
+
+            <div class="narrativa-bar">
+              <div class="narrativa-seg feito"></div>
+              <div class="narrativa-seg feito"></div>
+              <div class="narrativa-seg feito"></div>
+              <div class="narrativa-seg feito"></div>
+              <div class="narrativa-seg feito"></div>
+              <div class="narrativa-seg atual"></div>
+            </div>
+
+            <!-- Grade bloqueada com cadeado -->
+            <div style="position:relative;margin-top:12px;">
+              <div id="s6-grid" class="slot-grid"></div>
+              <div style="
+              position:absolute;top:50%;left:50%;
+              transform:translate(-50%,-50%);
+              font-size:3.5rem;
+              filter:drop-shadow(0 2px 6px rgba(0,0,0,0.3));
+            ">🔒</div>
+            </div>
+
+            <div class="saldo-box" style="margin-top:12px;background:#c0392b;">
+              <div class="saldo-label">Saldo final</div>
+              <div id="s6-saldo" class="saldo-valor">R$ 0,00</div>
+            </div>
+
+            <div class="btn-area">
+              <button class="btn btn-continuar" onclick="goToStep(7)">
+                Ver conclusão →
+              </button>
+            </div>
+          </div>
+
+          <!-- Painel Transparência -->
+          <div class="painel-transparencia flex-col">
+            <div class="painel-label">🔍 Painel de Transparência</div>
+
+            <!-- Resumo final em grid 2×2 -->
+            <!-- Para editar os valores, edite DEMO_SCRIPT.steps.encerramento -->
+            <div class="resumo-grid">
+              <div class="resumo-item">
+                <div class="ri-num">10</div>
+                <div class="ri-label">Rodadas</div>
+              </div>
+              <div class="resumo-item">
+                <div class="ri-num">4</div>
+                <div class="ri-label">Near-misses</div>
+              </div>
+              <div class="resumo-item">
+                <div class="ri-num">2</div>
+                <div class="ri-label">Vitórias falsas</div>
+              </div>
+              <div class="resumo-item">
+                <div class="ri-num" style="color:#e74c3c;">R$12</div>
+                <div class="ri-label">Casa ficou com</div>
+              </div>
+            </div>
+
+            <!-- Balanço final -->
+            <div class="conta-visual" style="margin-bottom:10px;">
+              <div class="conta-linha">
+                <span>Você apostou</span>
+                <span class="texto-vermelho">R$ 5,00</span>
+              </div>
+              <div class="conta-linha">
+                <span>Recebeu de volta</span>
+                <span class="texto-verde">R$38</span>
+              </div>
+              <div class="conta-linha separador perda">
+                <span>Casa ficou com</span>
+                <span>R$12 (24%)</span>
+              </div>
+            </div>
+
+            <!-- Mensagem final de impacto -->
+            <!-- Para editar a mensagem, altere o texto abaixo -->
+            <div class="mensagem-final">
+              Nenhuma dessas perdas foi azar.
+              <span>Todas foram matemática.</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =========================================================
+         SLIDE 7 — CONCLUSÃO PEDAGÓGICA
+         Para editar: substitua o conteúdo dentro de
+         .conclusao-placeholder pelo texto final.
+         ========================================================= -->
+      <section>
+        <div class="conclusao-layout">
+
+          <div class="conclusao-header">
+            <h2>📚 Conclusão Pedagógica</h2>
+            <p>O que fica desta experiência</p>
+          </div>
+
+          <!-- Resumo principal para o professor -->
+          <div class="conclusao-resumo">
+            <div class="resumo-icon">✓</div>
+            <h3>Resumo para o professor</h3>
+            <p>Esta demonstração evidencia como mecanismos algorítmicos podem criar ilusões de controle e reforçar comportamentos de risco. Use os pontos abaixo para orientar sua prática.</p>
+          </div>
+
+          <!-- Três blocos com o aprendizado -->
+          <div class="conclusao-blocos">
+            <!-- Bloco 1: O que os estudantes observaram -->
+            <div class="conclusao-bloco">
+              <div class="bloco-header">
+                <span class="bloco-icone">👁️</span>
+                <span class="bloco-numero">1</span>
+                <h4>O que os estudantes observaram</h4>
+              </div>
+              <ul class="bloco-lista">
+                <li>O resultado é definido antes da animação</li>
+                <li>O quase ganho pode ser fabricado</li>
+                <li>Nem toda 'vitória' representa ganho real</li>
+                <li>As perdas se acumulam ao longo das rodadas</li>
+              </ul>
+            </div>
+
+            <!-- Bloco 2: Perguntas para discussão -->
+            <div class="conclusao-bloco">
+              <div class="bloco-header">
+                <span class="bloco-icone">💬</span>
+                <span class="bloco-numero">2</span>
+                <h4>Perguntas para discussão</h4>
+              </div>
+              <ul class="bloco-lista bloco-perguntas">
+                <li>O que mais chamou atenção na demonstração?</li>
+                <li>Por que o quase ganho pode incentivar novas apostas?</li>
+                <li>Como uma falsa vitória pode enganar o jogador?</li>
+                <li>Que relação isso tem com educação financeira?</li>
+              </ul>
+            </div>
+
+            <!-- Bloco 3: Próximo passo do professor -->
+            <div class="conclusao-bloco">
+              <div class="bloco-header">
+                <span class="bloco-icone">📋</span>
+                <span class="bloco-numero">3</span>
+                <h4>Próximo passo do professor</h4>
+              </div>
+              <p class="bloco-texto">Use este momento para promover reflexão crítica em sala de aula e aprofundar a conversa com apoio do roteiro em PDF.</p>
+            </div>
+          </div>
+
+          <!-- Dica pedagógica -->
+          <div class="conclusao-dica">
+            <span class="dica-icone">💡</span>
+            <p><strong>Dica:</strong> Incentive os estudantes a compartilharem percepções e relacionar com situações do cotidiano.</p>
+          </div>
+
+          <!-- Botões de ação -->
+          <div class="conclusao-acoes">
+            <button class="btn btn-download" onclick="downloadPDF()">
+              📥 Baixar roteiro em PDF
+            </button>
+            <button class="btn btn-reiniciar" onclick="resetDemo()">
+              🔄 Reiniciar demonstração
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+    </div><!-- /slides -->
+  </div><!-- /reveal -->
+
+  <!-- Overlay de transição entre slides (fade → preto → fade) -->
+  <div id="transicao-overlay"></div>
+
+  <!-- =========================================================
+       POPUP GLOBAL — gerenciado por PopupManager em script.js
+       Para adicionar um popup a um slide, edite POPUP_DEFINITIONS
+       em script.js — não é necessário alterar este HTML.
+       ========================================================= -->
+  <div id="global-popup" class="popup oculto">
+    <div class="popup-overlay" onclick="PopupManager.fechar()"></div>
+    <div class="popup-container">
+      <p id="popup-titulo" class="popup-title"></p>
+      <div id="popup-corpo" class="popup-corpo"></div>
+      <button id="popup-btn" class="btn btn-girar" style="margin-top:20px;font-size:0.95rem;max-width:none;"
+        onclick="PopupManager.fechar()">OK</button>
+    </div>
+  </div>
+
+  <!-- Reveal.js via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+
+  <!-- Script do projeto -->
+  <script src="script.js"></script>
+
+</body>
+
+</html>
