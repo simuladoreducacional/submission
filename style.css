@@ -738,7 +738,6 @@ html, body {
   width: 100%;
   margin-bottom: 32px;
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
   gap: 12px;
 }
@@ -754,6 +753,16 @@ html, body {
   font-size: 1.5rem;
   color: var(--branco);
   flex-shrink: 0;
+}
+
+.conclusao-resumo .resumo-texto {
+  flex: 1;
+}
+
+.conclusao-resumo .resumo-texto p:first-child {
+  color: var(--branco);
+  font-size: 1.2rem;
+  font-weight: 700;
 }
 
 .conclusao-resumo h3 {
@@ -773,9 +782,10 @@ html, body {
 /* ---- Três blocos de conteúdo ---- */
 .conclusao-blocos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  max-width: 900px;
+ /* Mudamos de 260px para 150px */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  max-width: 1000px;
   width: 100%;
   margin-bottom: 24px;
 }
@@ -784,7 +794,7 @@ html, body {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--raio);
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -840,6 +850,7 @@ html, body {
   align-items: flex-start;
   gap: 8px;
   line-height: 1.4;
+     font-size: 0.8rem;
 }
 
 .bloco-lista li::before {
@@ -848,6 +859,7 @@ html, body {
   font-weight: bold;
   flex-shrink: 0;
   min-width: 16px;
+
 }
 
 .bloco-perguntas li::before {
@@ -856,7 +868,7 @@ html, body {
 
 .bloco-texto {
   color: #a8c4e8;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   line-height: 1.5;
   margin: 0;
 }
